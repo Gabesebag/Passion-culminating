@@ -1,0 +1,1 @@
+let barrierWidth = 10
