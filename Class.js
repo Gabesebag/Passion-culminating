@@ -7,7 +7,7 @@ class projectiles {
     }
 }
 
-class Grid {
+class Blocks {
   constructor(x, y, width, height, color = "black", angle = 90) {
     this.x = x;
     this.y = y;

@@ -26,6 +26,8 @@ function setup () {
     // }
 
     // circle(200, 200, 50);
+
+    print(thisScreen)
 }
 
 function draw() {
