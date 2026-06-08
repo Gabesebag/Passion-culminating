@@ -139,10 +139,12 @@ function keyTyped() {
     }
 
     if (focusedPlayer === 1) {
+        if (player1name.length <= 9) {
         player1name += key;
-    } else if (focusedPlayer === 2) {
+    }} else if (focusedPlayer === 2) {
+        if (player2name.length <= 9) {
         player2name += key;
-    }
+    }}
 }
 
 function keyPressed() {
