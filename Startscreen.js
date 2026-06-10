@@ -59,6 +59,7 @@ function Startscreen() {
 			}
 			fill(0, 0, 255);
 			rectMode(CENTER)
+			circle(blueplayerx, blueplayery - boxWidth / 3, boxWidth / 15);
 			rect(blueplayerx, blueplayery, boxWidth / 3, boxWidth / 3, 0);
 			fill(255);
 			textSize(25);
@@ -168,6 +169,7 @@ function keyPressed() {
 		return;
 	}
 
+	//controls for player 1 movement
 	if (key === 'a' || key === 'A') {
 		if (showPlayer1Saved) {
 			blueplayerx -= boxWidth / 3;
@@ -187,6 +189,42 @@ function keyPressed() {
 		if (showPlayer1Saved) {
 			blueplayery += boxWidth / 3;
 			print("pressed S")
+		}
+	}
+	//if the left control is pressed, call the barrier placement function for player1
+	if (key === 'CONTROL') {
+		if (showPlayer1Saved) {
+		barrierPlacement();
+		}
+	}
+	//if c is pressed
+
+	//controls for player 2 movement with arrow keys
+	if (keyCode === LEFT_ARROW) {
+		if (showPlayer2Saved) {
+			redplayerx -= boxWidth / 3;
+			print("pressed LEFT_ARROW")
+		}
+	} else if (keyCode === RIGHT_ARROW) {
+		if (showPlayer2Saved) {
+			redplayerx += boxWidth / 3;
+			print("pressed RIGHT_ARROW")
+		}
+	} else if (keyCode === UP_ARROW) {
+		if (showPlayer2Saved) {
+			redplayery -= boxWidth / 3;
+			print("pressed UP_ARROW")
+		}
+	} else if (keyCode === DOWN_ARROW) {
+		if (showPlayer2Saved) {
+			redplayery += boxWidth / 3;
+			print("pressed DOWN_ARROW")
+		}
+	}
+	//if the right control is pressed, call the barrier placement function for player2
+	if (key === 'CONTROL') {
+		if (showPlayer2Saved) {
+		barrierPlacement();
 		}
 	}
 }
