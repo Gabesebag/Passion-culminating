@@ -59,7 +59,10 @@ function Startscreen() {
 			}
 			fill(0, 0, 255);
 			rectMode(CENTER)
+<<<<<<< HEAD
 			circle(blueplayerx, blueplayery - boxWidth / 3, boxWidth / 15);
+=======
+>>>>>>> f1a13034decff694a8b9e1b3e61cd48565ad5f8a
 			rect(blueplayerx, blueplayery, boxWidth / 3, boxWidth / 3, 0);
 			fill(255);
 			textSize(25);
@@ -169,7 +172,10 @@ function keyPressed() {
 		return;
 	}
 
+<<<<<<< HEAD
 	//controls for player 1 movement
+=======
+>>>>>>> f1a13034decff694a8b9e1b3e61cd48565ad5f8a
 	if (key === 'a' || key === 'A') {
 		if (showPlayer1Saved) {
 			blueplayerx -= boxWidth / 3;
@@ -189,6 +195,7 @@ function keyPressed() {
 		if (showPlayer1Saved) {
 			blueplayery += boxWidth / 3;
 			print("pressed S")
+<<<<<<< HEAD
 		}
 	}
 	//if the left control is pressed, call the barrier placement function for player1
@@ -225,6 +232,8 @@ function keyPressed() {
 	if (key === 'CONTROL') {
 		if (showPlayer2Saved) {
 		barrierPlacement();
+=======
+>>>>>>> f1a13034decff694a8b9e1b3e61cd48565ad5f8a
 		}
 	}
 }
