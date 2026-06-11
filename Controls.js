@@ -14,10 +14,10 @@ function handleControlsKeys() {
     player1X -= boxWidth / 3;
     print("keypressed");
   }
-  //if 0 is pressed move the circle of player1 to the side of player1 aswell as not making it diagnol to player1
-if (key === '0') {
-    player1X -= boxWidth / 3;
-    print("keypressed");
+  //if c or C is pressed, rotate the blue circle by 90 degrees to the right each time
+  if (key === 'c' || key === 'C') {
+  playerRotation += 90; // Add 90 degrees each time
+  if (playerRotation >= 360) playerRotation = 0; // Reset after full rotation
+  print("Blue circle rotated. Current angle: " + playerRotation);
   }
-
 }

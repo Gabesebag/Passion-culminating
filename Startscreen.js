@@ -57,17 +57,31 @@ function Startscreen() {
 				blueplayerx = player1X - 80;
 				blueplayery = player1Y + boxHeight;
 			}
-			fill(0, 0, 255);
-			rectMode(CENTER)
-<<<<<<< HEAD
-			circle(blueplayerx, blueplayery - boxWidth / 3, boxWidth / 15);
-=======
->>>>>>> f1a13034decff694a8b9e1b3e61cd48565ad5f8a
-			rect(blueplayerx, blueplayery, boxWidth / 3, boxWidth / 3, 0);
-			fill(255);
-			textSize(25);
-			textAlign(CENTER, CENTER);
-			text(player1name, blueplayerx, blueplayery);
+
+		if (blueplayerx === 0 && blueplayery === 0) {
+			blueplayerx = player1X - 80;
+			blueplayery = player1Y + boxHeight;
+		}
+
+		fill(0, 0, 255);
+  		rectMode(CENTER);
+  
+  		// Rotate the circle and rectangle
+  		push();
+  		translate(blueplayerx, blueplayery);
+  		rotate(radians(player1Rotation));
+  		circle(0, -boxWidth / 3, boxWidth / 15);
+  		rect(0, 0, boxWidth / 3, boxWidth / 3, 0);
+  		pop();
+  
+  		// Text stays unrotated here
+  		fill(255);
+  		textSize(25);
+  		textAlign(CENTER, CENTER);
+  		text(player1name, blueplayerx, blueplayery);
+		}
+	}
+
 		}
 		if (showPlayer2Saved) {
 			if (redplayerx === 0 && redplayery === 0) {
@@ -81,8 +95,8 @@ function Startscreen() {
 			textAlign(CENTER, CENTER);
 			text(player2name, redplayerx, redplayery);
 		}
-	}
-}
+	
+
 
 function mousePressed() {
 	if (startscreen === 0) {
@@ -172,10 +186,7 @@ function keyPressed() {
 		return;
 	}
 
-<<<<<<< HEAD
 	//controls for player 1 movement
-=======
->>>>>>> f1a13034decff694a8b9e1b3e61cd48565ad5f8a
 	if (key === 'a' || key === 'A') {
 		if (showPlayer1Saved) {
 			blueplayerx -= boxWidth / 3;
@@ -195,7 +206,12 @@ function keyPressed() {
 		if (showPlayer1Saved) {
 			blueplayery += boxWidth / 3;
 			print("pressed S")
-<<<<<<< HEAD
+		}
+	} else if (key === 'c' || key === 'C') {
+		if (showPlayer1Saved) {
+			playerRotation += 90;
+			if (playerRotation >= 360) playerRotation = 0;
+			print("pressed C - rotated blue player " + playerRotation);
 		}
 	}
 	//if the left control is pressed, call the barrier placement function for player1
@@ -232,8 +248,6 @@ function keyPressed() {
 	if (key === 'CONTROL') {
 		if (showPlayer2Saved) {
 		barrierPlacement();
-=======
->>>>>>> f1a13034decff694a8b9e1b3e61cd48565ad5f8a
 		}
 	}
 }

@@ -13,6 +13,7 @@ let player2Y = 0
 
 let blueplayerx = 0
 let blueplayery = 0
+let playerRotation = 0
 let redplayerx = 0
 let redplayery = 0
 
