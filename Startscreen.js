@@ -58,43 +58,49 @@ function Startscreen() {
 				blueplayery = player1Y + boxHeight;
 			}
 
-		if (blueplayerx === 0 && blueplayery === 0) {
-			blueplayerx = player1X - 80;
-			blueplayery = player1Y + boxHeight;
+			fill(0, 0, 255);
+			rectMode(CENTER);
+
+			// Rotate the blue circle and rectangle
+			push();
+			translate(blueplayerx, blueplayery);
+			rotate(radians(player1Rotation));
+			circle(0, -boxWidth / 3, boxWidth / 15);
+			rect(0, 0, boxWidth / 3, boxWidth / 3, 0);
+			pop();
+
+			// Text stays unrotated here
+			fill(255);
+			textSize(25);
+			textAlign(CENTER, CENTER);
+			text(player1name, blueplayerx, blueplayery);
 		}
 
-		fill(0, 0, 255);
-  		rectMode(CENTER);
-  
-  		// Rotate the circle and rectangle
-  		push();
-  		translate(blueplayerx, blueplayery);
-  		rotate(radians(player1Rotation));
-  		circle(0, -boxWidth / 3, boxWidth / 15);
-  		rect(0, 0, boxWidth / 3, boxWidth / 3, 0);
-  		pop();
-  
-  		// Text stays unrotated here
-  		fill(255);
-  		textSize(25);
-  		textAlign(CENTER, CENTER);
-  		text(player1name, blueplayerx, blueplayery);
-		}
-	}
-
-		}
 		if (showPlayer2Saved) {
 			if (redplayerx === 0 && redplayery === 0) {
 				redplayerx = player2X + 80;
 				redplayery = player2Y + boxHeight;
 			}
+
 			fill(255, 0, 0);
-			rect(redplayerx, redplayery, boxWidth / 3, boxWidth / 3, 0);
+			rectMode(CENTER);
+
+			// Rotate the red circle and rectangle
+			push();
+			translate(redplayerx, redplayery);
+			rotate(radians(player2Rotation));
+			circle(0, -boxWidth / 3, boxWidth / 15);
+			rect(0, 0, boxWidth / 3, boxWidth / 3, 0);
+			pop();
+
+			// Text stays unrotated here
 			fill(255);
 			textSize(25);
 			textAlign(CENTER, CENTER);
 			text(player2name, redplayerx, redplayery);
 		}
+	}
+}
 	
 
 
@@ -209,9 +215,9 @@ function keyPressed() {
 		}
 	} else if (key === 'c' || key === 'C') {
 		if (showPlayer1Saved) {
-			playerRotation += 90;
-			if (playerRotation >= 360) playerRotation = 0;
-			print("pressed C - rotated blue player " + playerRotation);
+			player1Rotation += 90;
+			if (player1Rotation >= 360) player1Rotation = 0;
+			print("pressed C - rotated blue player " + player1Rotation);
 		}
 	}
 	//if the left control is pressed, call the barrier placement function for player1
@@ -242,6 +248,12 @@ function keyPressed() {
 		if (showPlayer2Saved) {
 			redplayery += boxWidth / 3;
 			print("pressed DOWN_ARROW")
+		}
+	} else if (key === '0') {
+		if (showPlayer2Saved) {
+			player2Rotation += 90;
+			if (player2Rotation >= 360) player2Rotation = 0;
+			print("pressed 0 - rotated red player " + player2Rotation);
 		}
 	}
 	//if the right control is pressed, call the barrier placement function for player2
