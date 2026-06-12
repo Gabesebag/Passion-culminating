@@ -21,11 +21,4 @@ function handleControlsKeys() {
     if (player2Rotation >= 360) player2Rotation = 0; // Reset after full rotation
     print("Red circle rotated. Current angle: " + player2Rotation);
   }
-  //if left control is pressed, call the barrier class and place a barrier where the circle is currently located for player 1
- // let boxWidth = windowWidth * 0.1;
-  if (key === 'LEFT_CONTROL') {
-    let newBarrier = new Blocks(blueplayerx, blueplayery, barrierWidth, boxWidth, "blue", player1Rotation);
-    newBarrier.draw();
-    print("Barrier placed for player 1 at (" + blueplayerx + ", " + blueplayery + ") with rotation " + player1Rotation);
-  }
 }

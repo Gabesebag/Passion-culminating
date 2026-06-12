@@ -7,6 +7,7 @@ class projectiles {
     }
 }
 
+
 class Blocks {
   constructor(x, y, width, height, color = "black", angle = 90) {
     this.x = x;
@@ -20,7 +21,7 @@ class Blocks {
   draw() {
     push();
     translate(this.x, this.y); 
-    // rotate(this.angle); 
+    rotate(radians(this.angle));
     rectMode(CENTER);
     fill(this.colour);
     rect(0, 0, this.w, this.h);

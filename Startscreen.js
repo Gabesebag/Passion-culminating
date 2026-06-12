@@ -99,9 +99,13 @@ function Startscreen() {
 			textAlign(CENTER, CENTER);
 			text(player2name, redplayerx, redplayery);
 		}
+
+		for (let i = 0; i < barriers.length; i++) {
+			barriers[i].draw();
+		}
 	}
 }
-	
+
 
 
 function mousePressed() {
@@ -165,6 +169,10 @@ function mousePressed() {
 			focusedPlayer = 0;
 			nameInputFocused = false;
 		}
+
+		for (let i = 0; i < barriers.length; i++) {
+			barriers[i].draw();
+		}
 	}
 }
 
@@ -220,14 +228,26 @@ function keyPressed() {
 			print("pressed C - rotated blue player " + player1Rotation);
 		}
 	}
-	//if the left control is pressed, call the barrier placement function for player1
-	if (key === 'CONTROL') {
-		if (showPlayer1Saved) {
-		barrierPlacement();
-		}
+	//if the left control is pressed, spawn a barrier at the blue circle location for player1
+	if ((key === 'CONTROL' || key === 'Control' || keyCode === CONTROL) && showPlayer1Saved) {
+		let circleOffset = boxWidth / 3;
+		let angleRad = radians(player1Rotation);
+		let blockX = blueplayerx + sin(angleRad) * circleOffset;
+		let blockY = blueplayery - cos(angleRad) * circleOffset;
+		let newBarrier = new Blocks(blockX, blockY, boxWidth / 3, boxWidth / 3, "#0500A3", player1Rotation);
+		barriers.push(newBarrier);
+		print("Barrier placed for player 1 at (" + blockX + ", " + blockY + ") with rotation " + player1Rotation);
 	}
-	//if c is pressed
-
+	//if 9 is pressed, place a barrier at the red circle location for player2
+	if ((key === '9') && showPlayer2Saved) {
+		let circleOffset = boxWidth / 3;
+		let angleRad = radians(player2Rotation);
+		let blockX = redplayerx + sin(angleRad) * circleOffset;
+		let blockY = redplayery - cos(angleRad) * circleOffset;
+		let newBarrier = new Blocks(blockX, blockY, boxWidth / 3, boxWidth / 3, "#A30000", player2Rotation);
+		barriers.push(newBarrier);
+		print("Barrier placed for player 2 at (" + blockX + ", " + blockY + ") with rotation " + player2Rotation);
+	}
 	//controls for player 2 movement with arrow keys
 	if (keyCode === LEFT_ARROW) {
 		if (showPlayer2Saved) {
@@ -254,12 +274,6 @@ function keyPressed() {
 			player2Rotation += 90;
 			if (player2Rotation >= 360) player2Rotation = 0;
 			print("pressed 0 - rotated red player " + player2Rotation);
-		}
-	}
-	//if the right control is pressed, call the barrier placement function for player2
-	if (key === 'CONTROL') {
-		if (showPlayer2Saved) {
-		barrierPlacement();
 		}
 	}
 }

@@ -20,3 +20,4 @@ let redplayery = 0
 
 let player1name = ""
 let player2name = ""
+let barriers = []
