@@ -78,7 +78,7 @@ function Startscreen() {
 
 		if (showPlayer2Saved) {
 			if (redplayerx === 0 && redplayery === 0) {
-				redplayerx = player2X + 80;
+				redplayerx = player2X + 40;
 				redplayery = player2Y + boxHeight;
 			}
 
@@ -248,6 +248,36 @@ function keyPressed() {
 		barriers.push(newBarrier);
 		print("Barrier placed for player 2 at (" + blockX + ", " + blockY + ") with rotation " + player2Rotation);
 	}
+
+	//if total barriers blocks is equal to 6, remove the oldest barrier block and add a new one at the location of the blue circle for player1
+	if (barriers.length > 6) {
+		barriers.shift();
+		print("Removed oldest barrier. Total barriers: " + barriers.length);
+	}
+
+	//if total barriers blocks is equal to 6, remove the oldest barrier block and add a new one at the location of the red circle for player2
+	if (barriers.length > 6) {
+		barriers.shift();
+		print("Removed oldest barrier. Total barriers: " + barriers.length);
+	}
+
+	//When barriers are placed, players cannot move through the barrier. If player1 tries to move through a barrier, they will be pushed back to their previous position. If player2 tries to move through a barrier, they will also be pushed back to their previous position.
+	for (let i = 0; i < barriers.length; i++) {
+		if (showPlayer1Saved && barriers[i].contains(blueplayerx, blueplayery)) {
+			let angleRad = radians(player1Rotation);
+			blueplayerx -= sin(angleRad) * (boxWidth / 3);
+			blueplayery += cos(angleRad) * (boxWidth / 3);
+			print("Player 1 hit a barrier and was pushed back");
+		}
+	// 	if (showPlayer2Saved && barriers[i].contains(redplayerx, redplayery)) {
+	// 		let angleRad = radians(player2Rotation);
+	// 		redplayerx -= sin(angleRad) * (boxWidth / 3);
+	// 		redplayery += cos(angleRad) * (boxWidth / 3);
+	// 		print("Player 2 hit a barrier and was pushed back");
+	// 	}
+	}
+
+	
 	//controls for player 2 movement with arrow keys
 	if (keyCode === LEFT_ARROW) {
 		if (showPlayer2Saved) {
