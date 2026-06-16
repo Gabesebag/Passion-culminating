@@ -214,7 +214,7 @@ function keyPressed() {
 	if (key === 'a' || key === 'A') {
 		if (showPlayer1Saved) {
 			let nextX = blueplayerx - playerSize;
-			if (!isBarrierCollision(nextX, blueplayery, playerSize, playerSize, player1Rotation)) {
+			if (!isBarrierCollision(nextX, blueplayery, playerSize, playerSize, 0)) {
 				blueplayerx = nextX;
 			}
 			print("pressed A")
@@ -222,7 +222,7 @@ function keyPressed() {
 	} else if (key === 'd' || key === 'D') {
 		if (showPlayer1Saved) {
 			let nextX = blueplayerx + playerSize;
-			if (!isBarrierCollision(nextX, blueplayery, playerSize, playerSize, player1Rotation)) {
+			if (!isBarrierCollision(nextX, blueplayery, playerSize, playerSize, 0)) {
 				blueplayerx = nextX;
 			}
 			print("pressed D")
@@ -230,7 +230,7 @@ function keyPressed() {
 	} else if (key === 'w' || key === 'W') {
 		if (showPlayer1Saved) {
 			let nextY = blueplayery - playerSize;
-			if (!isBarrierCollision(blueplayerx, nextY, playerSize, playerSize, player1Rotation)) {
+			if (!isBarrierCollision(blueplayerx, nextY, playerSize, playerSize, 0)) {
 				blueplayery = nextY;
 			}
 			print("pressed W")
@@ -238,7 +238,7 @@ function keyPressed() {
 	} else if (key === 's' || key === 'S') {
 		if (showPlayer1Saved) {
 			let nextY = blueplayery + playerSize;
-			if (!isBarrierCollision(blueplayerx, nextY, playerSize, playerSize, player1Rotation)) {
+			if (!isBarrierCollision(blueplayerx, nextY, playerSize, playerSize, 0)) {
 				blueplayery = nextY;
 			}
 			print("pressed S")
@@ -281,7 +281,7 @@ function keyPressed() {
 	if (keyCode === LEFT_ARROW) {
 		if (showPlayer2Saved) {
 			let nextX = redplayerx - playerSize;
-			if (!isBarrierCollision(nextX, redplayery, playerSize, playerSize, player2Rotation)) {
+			if (!isBarrierCollision(nextX, redplayery, playerSize, playerSize, 0)) {
 				redplayerx = nextX;
 			}
 			print("pressed LEFT_ARROW")
@@ -289,7 +289,7 @@ function keyPressed() {
 	} else if (keyCode === RIGHT_ARROW) {
 		if (showPlayer2Saved) {
 			let nextX = redplayerx + playerSize;
-			if (!isBarrierCollision(nextX, redplayery, playerSize, playerSize, player2Rotation)) {
+			if (!isBarrierCollision(nextX, redplayery, playerSize, playerSize, 0)) {
 				redplayerx = nextX;
 			}
 			print("pressed RIGHT_ARROW")
@@ -297,7 +297,7 @@ function keyPressed() {
 	} else if (keyCode === UP_ARROW) {
 		if (showPlayer2Saved) {
 			let nextY = redplayery - playerSize;
-			if (!isBarrierCollision(redplayerx, nextY, playerSize, playerSize, player2Rotation)) {
+			if (!isBarrierCollision(redplayerx, nextY, playerSize, playerSize, 0)) {
 				redplayery = nextY;
 			}
 			print("pressed UP_ARROW")
@@ -305,7 +305,7 @@ function keyPressed() {
 	} else if (keyCode === DOWN_ARROW) {
 		if (showPlayer2Saved) {
 			let nextY = redplayery + playerSize;
-			if (!isBarrierCollision(redplayerx, nextY, playerSize, playerSize, player2Rotation)) {
+			if (!isBarrierCollision(redplayerx, nextY, playerSize, playerSize, 0)) {
 				redplayery = nextY;
 			}
 			print("pressed DOWN_ARROW")

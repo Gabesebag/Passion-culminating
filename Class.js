@@ -73,62 +73,42 @@ class Blocks {
   }
 
   intersectsRect(px, py, pw, ph, pAngle) {
-    const toRadians = (degrees) => degrees * PI / 180;
-
-    const getCorners = (cx, cy, w, h, angle) => {
+    // Calculate true AABB (axis-aligned bounding box) for rotated block
+    const getAABB = (cx, cy, w, h, angle) => {
+      let rad = angle * PI / 180;
+      let cos_a = Math.cos(rad);
+      let sin_a = Math.sin(rad);
       let hw = w / 2;
       let hh = h / 2;
-      let rad = toRadians(angle);
-      let cosA = cos(rad);
-      let sinA = sin(rad);
+      
+      // Get all four corners rotated
       let corners = [
         { x: -hw, y: -hh },
         { x: hw, y: -hh },
         { x: hw, y: hh },
         { x: -hw, y: hh }
       ];
-      return corners.map((pt) => ({
-        x: cx + pt.x * cosA - pt.y * sinA,
-        y: cy + pt.x * sinA + pt.y * cosA
+      
+      let rotatedCorners = corners.map(pt => ({
+        x: cx + pt.x * cos_a - pt.y * sin_a,
+        y: cy + pt.x * sin_a + pt.y * cos_a
       }));
-    };
-
-    const projectOntoAxis = (points, axis) => {
-      let min = Infinity;
-      let max = -Infinity;
-      for (let i = 0; i < points.length; i++) {
-        let proj = points[i].x * axis.x + points[i].y * axis.y;
-        if (proj < min) min = proj;
-        if (proj > max) max = proj;
+      
+      let minX = Infinity, maxX = -Infinity;
+      let minY = Infinity, maxY = -Infinity;
+      for (let corner of rotatedCorners) {
+        if (corner.x < minX) minX = corner.x;
+        if (corner.x > maxX) maxX = corner.x;
+        if (corner.y < minY) minY = corner.y;
+        if (corner.y > maxY) maxY = corner.y;
       }
-      return { min, max };
+      
+      return { left: minX, right: maxX, top: minY, bottom: maxY };
     };
-
-    const getAxes = (corners) => {
-      let axes = [];
-      for (let i = 0; i < corners.length; i++) {
-        let p1 = corners[i];
-        let p2 = corners[(i + 1) % corners.length];
-        let edge = { x: p2.x - p1.x, y: p2.y - p1.y };
-        let normal = { x: -edge.y, y: edge.x };
-        let len = sqrt(normal.x * normal.x + normal.y * normal.y);
-        axes.push({ x: normal.x / len, y: normal.y / len });
-      }
-      return axes;
-    };
-
-    let cornersA = getCorners(this.x, this.y, this.w, this.h, this.angle);
-    let cornersB = getCorners(px, py, pw, ph, pAngle);
-    let axes = getAxes(cornersA).concat(getAxes(cornersB));
-
-    for (let i = 0; i < axes.length; i++) {
-      let axis = axes[i];
-      let projA = projectOntoAxis(cornersA, axis);
-      let projB = projectOntoAxis(cornersB, axis);
-      if (projA.max <= projB.min || projB.max <= projA.min) {
-        return false;
-      }
-    }
-    return true;
+    
+    let a = getAABB(this.x, this.y, this.w, this.h, this.angle);
+    let b = getAABB(px, py, pw, ph, pAngle);
+    
+    return !(a.right < b.left || a.left > b.right || a.bottom < b.top || a.top > b.bottom);
   }
 }
