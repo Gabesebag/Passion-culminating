@@ -73,29 +73,62 @@ class Blocks {
   }
 
   intersectsRect(px, py, pw, ph, pAngle) {
-    // This game uses only 90-degree rotations for player and barrier blocks.
-    // For these rotations, the bounding box is axis-aligned with dimensions swapped on 90/270 degrees.
-    const normalizeAngle = (angle) => {
-      let a = angle % 180;
-      if (a < 0) a += 180;
-      return a;
+    const toRadians = (degrees) => degrees * PI / 180;
+
+    const getCorners = (cx, cy, w, h, angle) => {
+      let hw = w / 2;
+      let hh = h / 2;
+      let rad = toRadians(angle);
+      let cosA = cos(rad);
+      let sinA = sin(rad);
+      let corners = [
+        { x: -hw, y: -hh },
+        { x: hw, y: -hh },
+        { x: hw, y: hh },
+        { x: -hw, y: hh }
+      ];
+      return corners.map((pt) => ({
+        x: cx + pt.x * cosA - pt.y * sinA,
+        y: cy + pt.x * sinA + pt.y * cosA
+      }));
     };
 
-    const getBounds = (cx, cy, w, h, angle) => {
-      let a = normalizeAngle(angle);
-      let width = a === 90 ? h : w;
-      let height = a === 90 ? w : h;
-      return {
-        left: cx - width / 2,
-        right: cx + width / 2,
-        top: cy - height / 2,
-        bottom: cy + height / 2,
-      };
+    const projectOntoAxis = (points, axis) => {
+      let min = Infinity;
+      let max = -Infinity;
+      for (let i = 0; i < points.length; i++) {
+        let proj = points[i].x * axis.x + points[i].y * axis.y;
+        if (proj < min) min = proj;
+        if (proj > max) max = proj;
+      }
+      return { min, max };
     };
 
-    let a = getBounds(this.x, this.y, this.w, this.h, this.angle);
-    let b = getBounds(px, py, pw, ph, pAngle);
+    const getAxes = (corners) => {
+      let axes = [];
+      for (let i = 0; i < corners.length; i++) {
+        let p1 = corners[i];
+        let p2 = corners[(i + 1) % corners.length];
+        let edge = { x: p2.x - p1.x, y: p2.y - p1.y };
+        let normal = { x: -edge.y, y: edge.x };
+        let len = sqrt(normal.x * normal.x + normal.y * normal.y);
+        axes.push({ x: normal.x / len, y: normal.y / len });
+      }
+      return axes;
+    };
 
-    return !(a.right < b.left || a.left > b.right || a.bottom < b.top || a.top > b.bottom);
+    let cornersA = getCorners(this.x, this.y, this.w, this.h, this.angle);
+    let cornersB = getCorners(px, py, pw, ph, pAngle);
+    let axes = getAxes(cornersA).concat(getAxes(cornersB));
+
+    for (let i = 0; i < axes.length; i++) {
+      let axis = axes[i];
+      let projA = projectOntoAxis(cornersA, axis);
+      let projB = projectOntoAxis(cornersB, axis);
+      if (projA.max <= projB.min || projB.max <= projA.min) {
+        return false;
+      }
+    }
+    return true;
   }
 }

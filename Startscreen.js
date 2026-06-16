@@ -176,9 +176,9 @@ function mousePressed() {
 	}
 }
 
-function isBarrierCollision(x, y, w, h, angle) {
+function isBarrierCollision(x, y, width, height, angle) {
 	for (let i = 0; i < barriers.length; i++) {
-		if (barriers[i].intersectsRect(x, y, w, h, angle)) {
+		if (barriers[i].intersectsRect(x, y, width, height, angle)) {
 			return true;
 		}
 	}
