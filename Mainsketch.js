@@ -32,4 +32,5 @@ function setup () {
 
 function draw() {
     Startscreen();
+
 }

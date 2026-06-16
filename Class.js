@@ -73,49 +73,29 @@ class Blocks {
   }
 
   intersectsRect(px, py, pw, ph, pAngle) {
-    // Oriented bounding box (OBB) vs OBB using Separating Axis Theorem
-    let angleA = radians(this.angle);
-    let angleB = radians(pAngle);
+    // This game uses only 90-degree rotations for player and barrier blocks.
+    // For these rotations, the bounding box is axis-aligned with dimensions swapped on 90/270 degrees.
+    const normalizeAngle = (angle) => {
+      let a = angle % 180;
+      if (a < 0) a += 180;
+      return a;
+    };
 
-    // local axes for A
-    let uxA = { x: cos(angleA), y: sin(angleA) };
-    let uyA = { x: -sin(angleA), y: cos(angleA) };
-    let hxA = this.w / 2;
-    let hyA = this.h / 2;
+    const getBounds = (cx, cy, w, h, angle) => {
+      let a = normalizeAngle(angle);
+      let width = a === 90 ? h : w;
+      let height = a === 90 ? w : h;
+      return {
+        left: cx - width / 2,
+        right: cx + width / 2,
+        top: cy - height / 2,
+        bottom: cy + height / 2,
+      };
+    };
 
-    // local axes for B (player)
-    let uxB = { x: cos(angleB), y: sin(angleB) };
-    let uyB = { x: -sin(angleB), y: cos(angleB) };
-    let hxB = pw / 2;
-    let hyB = ph / 2;
+    let a = getBounds(this.x, this.y, this.w, this.h, this.angle);
+    let b = getBounds(px, py, pw, ph, pAngle);
 
-    // centers
-    let cA = { x: this.x, y: this.y };
-    let cB = { x: px, y: py };
-
-    // axes to test: uxA, uyA, uxB, uyB
-    let axes = [uxA, uyA, uxB, uyB];
-
-    for (let i = 0; i < axes.length; i++) {
-      let axis = axes[i];
-      // normalize axis
-      let len = Math.hypot(axis.x, axis.y);
-      let ax = axis.x / len;
-      let ay = axis.y / len;
-
-      // project centers
-      let projA = cA.x * ax + cA.y * ay;
-      let projB = cB.x * ax + cB.y * ay;
-
-      // projection radius of A and B onto axis
-      let rA = hxA * abs(ax * uxA.x + ay * uxA.y) + hyA * abs(ax * uyA.x + ay * uyA.y);
-      let rB = hxB * abs(ax * uxB.x + ay * uxB.y) + hyB * abs(ax * uyB.x + ay * uyB.y);
-
-      if (abs(projA - projB) > rA + rB) {
-        return false; // separation found
-      }
-    }
-
-    return true; // overlap on all axes
+    return !(a.right < b.left || a.left > b.right || a.bottom < b.top || a.top > b.bottom);
   }
 }
