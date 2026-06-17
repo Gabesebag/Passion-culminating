@@ -65,8 +65,8 @@ function Startscreen() {
 			push();
 			translate(blueplayerx, blueplayery);
 			rotate(radians(player1Rotation));
-			circle(0, -boxWidth / 3, boxWidth / 15);
-			rect(0, 0, boxWidth / 3, boxWidth / 3, 0);
+			circle(0, -boxWidth, boxWidth / 15);
+			rect(0, 0, boxWidth, boxWidth, 0);
 			pop();
 
 			// Text stays unrotated here
@@ -89,8 +89,8 @@ function Startscreen() {
 			push();
 			translate(redplayerx, redplayery);
 			rotate(radians(player2Rotation));
-			circle(0, -boxWidth / 3, boxWidth / 15);
-			rect(0, 0, boxWidth / 3, boxWidth / 3, 0);
+			circle(0, -boxWidth, boxWidth / 15);
+			rect(0, 0, boxWidth, boxWidth, 0);
 			pop();
 
 			// Text stays unrotated here
@@ -110,7 +110,6 @@ function Startscreen() {
 
 function mousePressed() {
 	if (startscreen === 0) {
-		let boxWidth = windowWidth * 0.1;
 	    let boxHeight = windowHeight * 0.1;
 		let clickedNameBox = false;
 
@@ -122,6 +121,7 @@ function mousePressed() {
 			mouseY >= startY - boxHeight / 2 && mouseY <= startY + boxHeight / 2) {
 			thisScreen = 1; // Switch to arena screen when the start button is pressed
 			startscreen = 1; // keep the start-screen state consistent
+			clear(); // Clear the canvas for the arena screen
 			print(thisScreen);
 			print("Start button clicked");
 			return;
@@ -186,7 +186,6 @@ function isBarrierCollision(x, y, width, height, angle) {
 }
 
 function keyPressed() {
-	let boxWidth = windowWidth * 0.1;
 	if (nameInputFocused) {
 		if (keyCode === BACKSPACE) {
 			if (focusedPlayer === 1) {
@@ -210,7 +209,7 @@ function keyPressed() {
 	}
 
 	//controls for player 1 movement
-	let playerSize = boxWidth / 3;
+	let playerSize = boxWidth;
 	if (key === 'a' || key === 'A') {
 		if (showPlayer1Saved) {
 			let nextX = blueplayerx - playerSize;
@@ -252,21 +251,21 @@ function keyPressed() {
 	}
 	//if the left control is pressed, spawn a barrier at the blue circle location for player1
 	if ((key === 'CONTROL' || key === 'Control' || keyCode === CONTROL) && showPlayer1Saved) {
-		let circleOffset = boxWidth / 3;
+		let circleOffset = boxWidth
 		let angleRad = radians(player1Rotation);
 		let blockX = blueplayerx + sin(angleRad) * circleOffset;
 		let blockY = blueplayery - cos(angleRad) * circleOffset;
-		let newBarrier = new Blocks(blockX, blockY, boxWidth / 3, boxWidth / 3, "#0500A3", player1Rotation);
+		let newBarrier = new Blocks(blockX, blockY, boxWidth, boxWidth, "#0500A3", player1Rotation);
 		barriers.push(newBarrier);
 		print("Barrier placed for player 1 at (" + blockX + ", " + blockY + ") with rotation " + player1Rotation);
 	}
 	//if 9 is pressed, place a barrier at the red circle location for player2
 	if ((key === '9') && showPlayer2Saved) {
-		let circleOffset = boxWidth / 3;
+		let circleOffset = boxWidth
 		let angleRad = radians(player2Rotation);
 		let blockX = redplayerx + sin(angleRad) * circleOffset;
 		let blockY = redplayery - cos(angleRad) * circleOffset;
-		let newBarrier = new Blocks(blockX, blockY, boxWidth / 3, boxWidth / 3, "#A30000", player2Rotation);
+		let newBarrier = new Blocks(blockX, blockY, boxWidth, boxWidth, "#A30000", player2Rotation);
 		barriers.push(newBarrier);
 		print("Barrier placed for player 2 at (" + blockX + ", " + blockY + ") with rotation " + player2Rotation);
 	}
@@ -319,6 +318,44 @@ function keyPressed() {
 	}
 }
 
+//display the players so that they are alined and sized correctly to the grid, and also display the barriers in the arena
 function arena() {
-	// Code to transition to the arena screen
+	if (thisScreen === 1) {
+		background("#776865");
+		drawGridLines();
+
+		//if the arena screen is active, draw the players and barriers and set showPlayer1Saved and showPlayer2Saved to true so that the players are visible in the arena
+		if (!showPlayer1Saved && !showPlayer2Saved) {
+			showPlayer1Saved = true;
+			showPlayer2Saved = true;
+		}
+
+
+		if (showPlayer1Saved) {
+			fill(0, 0, 255);
+			rectMode(CORNERS);
+			// Rotate the blue circle and rectangle
+			push();
+			translate(blueplayerx, blueplayery);
+			rotate(radians(player1Rotation));
+			// draw player1 so that the circle and the player are not on the grid lines but are instead centered in the grid boxes
+			circle(boxWidth/2, -boxWidth/2, boxWidth / 15);
+			rect(0, 0 , boxWidth, boxWidth, 0);
+			pop();
+		}
+		if (showPlayer2Saved) {
+			fill(255, 0, 0);
+			rectMode(CENTER);
+			// Rotate the red circle and rectangle
+			push();
+			translate(redplayerx, redplayery);
+			rotate(radians(player2Rotation));
+			circle(0, -boxWidth/2, boxWidth / 15);
+			rect(0, 0, boxWidth, boxWidth, 0);
+			pop();
+		}
+		for (let i = 0; i < barriers.length; i++) {
+			barriers[i].draw();
+		}
+	} 
 }

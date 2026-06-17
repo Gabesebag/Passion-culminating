@@ -20,16 +20,13 @@ function drawGrid() {
 
 //draw a grid line every boxWidth pixels
 function drawGridLines() {
-    if (thisScreen === 1) {
-        rect (windowWidth/2, windowHeight/2, 100, 100); // Draw background
-        print("draw grid lines");
-        // return; // Don't draw grid lines on the start screen
-        // let boxWidth = windowWidth * 0.1;
-        // for (let i = boxWidth; i < windowWidth; i += boxWidth) {
-        //     line(i, 0, i, windowHeight);
-        // }
-        // for (let j = boxWidth; j < windowHeight; j += boxWidth) {
-        //     line(0, j, windowWidth, j);
-        // }
+        strokeWeight(1);
+        
+        for (let i = boxWidth; i < windowWidth; i += boxWidth) {
+            line(i, 0, i, windowHeight);
+        }
+        for (let j = boxWidth; j < windowHeight; j += boxWidth) {
+            line(0, j, windowWidth, j);
+        }
     }
-}
+
