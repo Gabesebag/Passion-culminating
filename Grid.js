@@ -29,4 +29,3 @@ function drawGridLines() {
             line(0, j, windowWidth, j);
         }
     }
-

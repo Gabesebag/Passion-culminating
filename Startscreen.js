@@ -323,6 +323,7 @@ function arena() {
 	if (thisScreen === 1) {
 		background("#776865");
 		drawGridLines();
+		timer()
 
 		//if the arena screen is active, draw the players and barriers and set showPlayer1Saved and showPlayer2Saved to true so that the players are visible in the arena
 		if (!showPlayer1Saved && !showPlayer2Saved) {
@@ -336,23 +337,35 @@ function arena() {
 			rectMode(CORNERS);
 			// Rotate the blue circle and rectangle
 			push();
-			translate(blueplayerx, blueplayery);
+			translate(blueplayerx  + boxWidth*12, blueplayery + boxWidth*6);
 			rotate(radians(player1Rotation));
 			// draw player1 so that the circle and the player are not on the grid lines but are instead centered in the grid boxes
 			circle(boxWidth/2, -boxWidth/2, boxWidth / 15);
 			rect(0, 0 , boxWidth, boxWidth, 0);
 			pop();
+
+			// Text stays unrotated here
+			fill(255);
+			textSize(25);
+			textAlign(CENTER, CENTER);
+			text(player1name, blueplayerx, blueplayery);
 		}
 		if (showPlayer2Saved) {
 			fill(255, 0, 0);
-			rectMode(CENTER);
+			rectMode(CORNERS);
 			// Rotate the red circle and rectangle
 			push();
-			translate(redplayerx, redplayery);
+			translate(redplayerx + boxWidth*19, redplayery + boxWidth*6);
 			rotate(radians(player2Rotation));
-			circle(0, -boxWidth/2, boxWidth / 15);
+			circle(boxWidth/2, -boxWidth/2, boxWidth / 15);
 			rect(0, 0, boxWidth, boxWidth, 0);
 			pop();
+
+			// Text stays unrotated here
+			fill(255);
+			textSize(100);
+			textAlign(CENTER, CENTER);
+			text(player2name, redplayerx, redplayery);
 		}
 		for (let i = 0; i < barriers.length; i++) {
 			barriers[i].draw();
