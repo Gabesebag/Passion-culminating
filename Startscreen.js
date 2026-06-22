@@ -10,8 +10,9 @@ function Startscreen() {
 			buttonColour = color(225, 225, 225);
 		}
 
-		const boxWidth = windowWidth * 0.1;
-		const boxHeight = windowHeight * 0.1;
+		let boxWidth = windowWidth * 0.15;
+		let boxHeight = windowHeight * 0.1;
+
 		if (player1X === 0) {
 			player1X = windowWidth / 2.6;
 			player1Y = windowHeight / 2.1;
@@ -53,7 +54,7 @@ function Startscreen() {
 		text("Player 2 name", player2X, windowHeight / 1.8);
 
 		if (showPlayer1Saved) {
-			if (blueplayerx === 0 && blueplayery === 0) {
+		if (blueplayerx === 0 && blueplayery === 0) {
 				blueplayerx = player1X - 80;
 				blueplayery = player1Y + boxHeight;
 			}
@@ -323,7 +324,9 @@ function arena() {
 	if (thisScreen === 1) {
 		background("#776865");
 		drawGridLines();
-		timer()
+		// Timer()
+
+		rect(boxWidth*31, boxWidth, boxWidth*2, boxWidth, 'black')
 
 		//if the arena screen is active, draw the players and barriers and set showPlayer1Saved and showPlayer2Saved to true so that the players are visible in the arena
 		if (!showPlayer1Saved && !showPlayer2Saved) {
@@ -369,6 +372,13 @@ function arena() {
 		}
 		for (let i = 0; i < barriers.length; i++) {
 			barriers[i].draw();
+		}
+
+		//when the timer starts, call the projectile function to start adding projectiles that move between the grid lines in a straight line from any of the cardinal direction and that they spawn in a random x and y coordinate that us between the grid lines to the arena.
+		if (timer >= 1) {
+			let x = boxWidth * random(1,30);
+			let y = boxWidth * random(1,30);
+			let projectile = new Projectile()
 		}
 	} 
 }

@@ -1,10 +1,38 @@
-class projectiles {
-    constructor(x, y, speed, direction) {
-        this.x = x;
-        this.y = y;
-        this.speed = speed;
-        this.direction = direction;
-    }
+class Projectile {
+  constructor(x, y, speed) {
+    this.x = x;
+    this.y = y;
+    this.speed = speed;
+
+    // 1. Array of cardinal directions (dx, dy)
+    const directions = [
+      { dx: 0, dy: -1 }, // North
+      { dx: 1, dy: 0 },  // East
+      { dx: 0, dy: 1 },  // South
+      { dx: -1, dy: 0 }  // West
+    ];
+
+    // 2. Pick a random direction
+    const randomDir = directions[Math.floor(Math.random() * directions.length)];
+
+    // 3. Set velocities
+    this.vx = randomDir.dx * this.speed;
+    this.vy = randomDir.dy * this.speed;
+  }
+
+  update() {
+    // 4. Move projectile based on randomized direction
+    this.x += this.vx;
+    this.y += this.vy;
+  }
+
+  draw(ctx) {
+    // Basic rendering (e.g., a circle)
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, 5, 0, Math.PI * 2);
+    ctx.fillStyle = 'white';
+    ctx.fill();
+  }
 }
 
 

@@ -22,7 +22,10 @@ let redplayery = 0
 let player1name = ""
 let player2name = ""
 let barriers = []
+let projectiles = []
 
-let Timer = 0
-let timex
-let timey
+let timer = 0
+let bestRecord = 0
+let pauseGame = false
+let lastProjectileSpawn = 0
+
